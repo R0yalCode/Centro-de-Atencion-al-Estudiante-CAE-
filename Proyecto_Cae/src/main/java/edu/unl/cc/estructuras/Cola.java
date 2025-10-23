@@ -27,4 +27,14 @@ public class Cola {
     public boolean estaVacia() {
         return cola.isEmpty();
     }
+
+    @Override
+    public String toString() {
+        if (cola.isEmpty()) return "- (sin casos en espera)";
+        StringBuilder sb = new StringBuilder();
+        for (Caso c : cola) {
+            sb.append("- Caso ").append(c.getId()).append(": ").append(c.getEstudiante()).append("\n");
+        }
+        return sb.toString();
+    }
 }
