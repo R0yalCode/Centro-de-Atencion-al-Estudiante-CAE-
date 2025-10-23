@@ -4,6 +4,7 @@ package edu.unl.cc;
  * @version 1.0
  */
 import edu.unl.cc.dominio.TipoEstado;
+import edu.unl.cc.exception.NombreInvalidoException;
 import edu.unl.cc.service.GestorCAE;
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public class Main {
         int opcion = -1;
 
         do {
-            System.out.println("\n--- MENÚ CAE ---");
+            System.out.println("\n--- BIENVENIDO AL SISTEMA CAE ---");
             System.out.println("1. Recibir nuevo caso");
             System.out.println("2. Atender siguiente caso");
             System.out.println("3. Agregar nota");
@@ -30,24 +31,27 @@ public class Main {
 
             if (sc.hasNextInt()) {
                 opcion = sc.nextInt();
-                sc.nextLine(); // limpiar buffer
-
+                sc.nextLine();
                 switch (opcion) {
                     case 1:
                         System.out.print("Nombre del estudiante: ");
                         String nombre = sc.nextLine();
-                        gestor.recibirCaso(nombre);
+                        try {
+                            gestor.recibirCaso(nombre);
+                        } catch (NombreInvalidoException e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
                         break;
                     case 2:
                         gestor.atenderSiguienteCaso();
                         break;
                     case 3:
-                        System.out.print("Texto de la nota: ");
+                        System.out.print("Ingrese una nota: ");
                         String nota = sc.nextLine();
                         gestor.agregarNota(nota);
                         break;
                     case 4:
-                        System.out.print("Texto de la nota a eliminar: ");
+                        System.out.print("Ingrese una nota a eliminar: ");
                         String eliminar = sc.nextLine();
                         gestor.eliminarNota(eliminar);
                         break;

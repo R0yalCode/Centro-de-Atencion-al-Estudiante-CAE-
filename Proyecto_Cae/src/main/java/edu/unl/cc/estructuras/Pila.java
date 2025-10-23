@@ -3,7 +3,6 @@ package edu.unl.cc.estructuras;
  * @author Steeven Pardo, Juan Calopino, Daniel Savedra, Royel Jima
  * @version 1.0
  */
-
 import edu.unl.cc.dominio.Accion;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -26,4 +25,6 @@ public class Pila {
     public void limpiar() {
         stack.clear();
     }
+
+
 }

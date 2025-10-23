@@ -1,16 +1,32 @@
 package edu.unl.cc.estructuras;
+
 /**
  * @author Steeven Pardo, Juan Calopino, Daniel Savedra, Royel Jima
  * @version 1.0
- * */
-import edu.unl.cc.dominio.Nota;
+ */
 
 public class Nodo {
-    public Nota nota;
-    public Nodo siguiente;
+    private String dato; // Contenido textual del nodo
+    private Nodo siguiente; // Referencia al siguiente nodo
 
-    public Nodo(Nota nota) {
-        this.nota = nota;
+    // Constructor que recibe el texto de la nota
+    public Nodo(String dato) {
+        this.dato = dato;
         this.siguiente = null;
+    }
+
+    // Devuelve el contenido del nodo
+    public String getDato() {
+        return dato;
+    }
+
+    // Devuelve el siguiente nodo
+    public Nodo getSiguiente() {
+        return siguiente;
+    }
+
+    // Asigna el siguiente nodo
+    public void setSiguiente(Nodo siguiente) {
+        this.siguiente = siguiente;
     }
 }

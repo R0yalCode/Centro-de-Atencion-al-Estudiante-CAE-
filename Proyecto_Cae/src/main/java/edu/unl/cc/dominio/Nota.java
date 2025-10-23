@@ -16,4 +16,13 @@ public class Nota {
     public void setTexto(String texto) {
         this.texto = texto;
     }
+
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Nota{");
+        sb.append("texto='").append(texto).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
