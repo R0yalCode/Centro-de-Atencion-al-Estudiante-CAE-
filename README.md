@@ -73,6 +73,8 @@ Además, se incorpora un mecanismo de **deshacer (Undo)** y **rehacer (Redo)** p
 | **Undo/Redo** | Revertir o rehacer última acción | Estado del ticket y notas coherente |
 | **Módulo Consola** | Flujo completo de atención | Ejecución sin excepciones, comportamiento coherente |
 
+## Capturas de pruebas por operacion
+
 #### Cola - Encolar/ Desencolar
 <img width="261" height="117" alt="image" src="https://github.com/user-attachments/assets/98a0fbbb-214a-41e5-ae2f-ee0c031b5ed2" />
 
