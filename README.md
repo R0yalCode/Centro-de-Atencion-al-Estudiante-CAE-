@@ -81,22 +81,40 @@ Además, se incorpora un mecanismo de **deshacer (Undo)** y **rehacer (Redo)** p
 - **Java JDK 21** o superior.
 - Editor o terminal con acceso al compilador `javac`.
 
-### 📂 Estructura del proyecto
+### Nota sobre dependencias y diseño
+No se utilizaron APIs externas ni librerías de terceros. Se optó por implementar manualmente las estructuras de datos fundamentales (pilas, colas y listas enlazadas) para comprender mejor su funcionamiento y controlar explícitamente las referencias y operaciones sobre nodos.
+
+### Estructura del proyecto 
+El proyecto está organizado bajo el paquete `edu.unl.cc`. La estructura relevante del código fuente es la siguiente:
+
 ```bash
 src/
-└── cae/
-    ├── modelo/
-    │   ├── Estado.java
-    │   ├── Nota.java
-    │   ├── SLLNotas.java
-    │   └── Ticket.java
-    │
-    ├── estructuras/
-    │   └── TicketQueue.java
-    │
-    └── consola/
-        └── ModuloConsola.java  
+└── main/
+  └── java/
+    └── edu/
+      └── unl/
+        └── cc/
+          ├── Main.java
+          ├── dominio/
+          │   ├── Accion.java
+          │   ├── Caso.java
+          │   ├── Nota.java
+          │   └── TipoEstado.java
+          │
+          ├── estructuras/
+          │   ├── Cola.java
+          │   ├── Lista.java
+          │   ├── Nodo.java
+          │   └── Pila.java
+          │
+          ├── exception/
+          │   └── NombreInvalidoException.java
+          │
+          └── service/
+            └── GestorCAE.java
 ```
+
+ 
 
 ## Autores: 
 ### [Steeven Pardo](https://github.com/Dan1el17)
