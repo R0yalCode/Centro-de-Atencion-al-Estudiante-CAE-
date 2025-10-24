@@ -73,6 +73,33 @@ Además, se incorpora un mecanismo de **deshacer (Undo)** y **rehacer (Redo)** p
 | **Undo/Redo** | Revertir o rehacer última acción | Estado del ticket y notas coherente |
 | **Módulo Consola** | Flujo completo de atención | Ejecución sin excepciones, comportamiento coherente |
 
+#### Cola - Encolar/ Desencolar
+<img width="261" height="117" alt="image" src="https://github.com/user-attachments/assets/98a0fbbb-214a-41e5-ae2f-ee0c031b5ed2" />
+
+- Se muestran las lineas de la recepcion de los casos, con la lista de los casos en espera con la opcion 10.
+
+#### Flujo completo
+<img width="361" height="246" alt="image" src="https://github.com/user-attachments/assets/c7ea3bef-1142-44f8-9a6d-9d8ecebd049f" />
+
+- Flujo completo del sistema donde se recibe los casos, se los atiende, se les agrega una nota, se finaliza el caso, con su respectiva nota.
+
+#### Lista enlazada -  Insertar / ELimnar nota
+<img width="360" height="223" alt="image" src="https://github.com/user-attachments/assets/22c133fb-eb57-42aa-bf63-6be121ee63b6" />
+
+- Se añade dos notas y se elimina la primera, despues se visualiza los casos finalizados con la opcion 9.
+
+#### Pila - Pus/Pop
+<img width="288" height="241" alt="image" src="https://github.com/user-attachments/assets/83eb51a4-ec53-42c7-8d61-42f1b7626dee" />
+
+- Se añaden dos notas, despues se coloca deshacer dos veces, visualizando como se han deshecho. 
+
+#### Undo/Redo - Revertir o rehacer la ultima accion
+<img width="315" height="195" alt="image" src="https://github.com/user-attachments/assets/6f0aed03-3bdb-410f-a939-2845620025e5" />
+
+- Se muestra como se puede deshacer y rehacer una nota, con todo el flujo del sistema.  
+
+
+
 ---
 
 ##  Guía de ejecución
