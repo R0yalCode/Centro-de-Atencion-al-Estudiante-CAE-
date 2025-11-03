@@ -179,4 +179,90 @@ public class GestorCAE {
     public void mostrarCasosEnEspera() {
         cola.mostrarCasosEnEspera();
     }
+
+    public void exportarDatos(String nombreArchivo) {
+        try (java.io.FileWriter writer = new java.io.FileWriter(nombreArchivo)) {
+
+            // Encabezado
+            writer.write("═".repeat(50) + "\n");
+            writer.write("EXPORTACIÓN DE DATOS - CENTRO DE ATENCIÓN AL ESTUDIANTE\n");
+            writer.write("Fecha: " + new java.util.Date() + "\n");
+            writer.write("═".repeat(50) + "\n\n");
+
+            // Tickets en cola (usando la cola interna)
+            writer.write("TICKETS EN COLA DE ESPERA:\n");
+            List<Caso> listaEnCola = cola.listarCasos();
+            writer.write("Total: " + listaEnCola.size() + "\n");
+            if (!listaEnCola.isEmpty()) {
+                int contador = 1;
+                for (Caso caso : listaEnCola) {
+                    writer.write(contador + ". ID: " + caso.getId() + " - " + caso.getEstudiante() + "\n");
+                    contador++;
+                }
+            } else {
+                writer.write("No hay tickets en espera\n");
+            }
+            writer.write("\n");
+
+            // Ticket en atención (casoActual)
+            writer.write("TICKET EN ATENCIÓN:\n");
+            if (casoActual != null) {
+                writer.write("ID: " + casoActual.getId() + "\n");
+                writer.write("Estado: " + casoActual.getEstado() + "\n");
+                List<String> notas = casoActual.getNotas();
+                writer.write("Notas registradas: " + (notas != null ? notas.size() : 0) + "\n");
+
+                if (notas != null && !notas.isEmpty()) {
+                    writer.write("Detalle de notas:\n");
+                    int contadorNota = 1;
+                    for (String nota : notas) {
+                        writer.write("  " + contadorNota + ". " + nota + "\n");
+                        contadorNota++;
+                    }
+                }
+            } else {
+                writer.write("No hay ticket en atención actualmente\n");
+            }
+            writer.write("\n");
+
+            // Historial de acciones (pilaUndo / pilaRedo)
+            writer.write("HISTORIAL DE ACCIONES:\n");
+            writer.write("Acciones disponibles para DESHACER: " + pilaUndo.tamanio() + "\n");
+            writer.write("Acciones disponibles para REHACER: " + pilaRedo.tamanio() + "\n");
+            writer.write("\n");
+
+
+            // Sección: Casos finalizados
+            writer.write("CASOS FINALIZADOS:\n");
+            writer.write("Total: " + casosFinalizados.size() + "\n");
+            if (!casosFinalizados.isEmpty()) {
+                int idx = 1;
+                for (Caso c : casosFinalizados) {
+                    writer.write(idx + ". ID: " + c.getId() + " - " + c.getEstudiante() + "\n");
+                    writer.write("   Estado: " + c.getEstado() + "\n");
+                    List<String> notasFinal = c.getNotas();
+                    writer.write("   Notas registradas: " + (notasFinal != null ? notasFinal.size() : 0) + "\n");
+                    if (notasFinal != null && !notasFinal.isEmpty()) {
+                        writer.write("   Detalle de notas:\n");
+                        for (int i = 0; i < notasFinal.size(); i++) {
+                            writer.write("      " + (i + 1) + ". " + notasFinal.get(i) + "\n");
+                        }
+                    }
+                    writer.write("---------------\n");
+                    idx++;
+                }
+            } else {
+                writer.write("No hay casos finalizados\n");
+            }
+
+            writer.write("\n" + "═".repeat(50) + "\n");
+            writer.write("EXPORTACIÓN COMPLETADA\n");
+            writer.write("═".repeat(50) + "\n");
+
+            System.out.println("✓ Datos exportados exitosamente a: " + nombreArchivo);
+
+        } catch (java.io.IOException e) {
+            System.out.println("✗ Error al exportar datos: " + e.getMessage());
+        }
+    }
 }
