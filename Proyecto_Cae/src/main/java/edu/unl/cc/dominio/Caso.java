@@ -7,6 +7,9 @@ package edu.unl.cc.dominio;
 
 import edu.unl.cc.estructuras.Lista;
 import edu.unl.cc.estructuras.Nodo;
+import java.util.Collection;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Caso {
     private int id; // Identificador único del caso
@@ -55,6 +58,11 @@ public class Caso {
     // Método para verificar si la lista de notas está vacía
     public boolean notasVacias() {
         return notas.estaVacia();
+    }
+
+    // Obtiene una lista de notas como List<String>
+    public List<String> getNotas() {
+        return notas == null ? new ArrayList<>() : new ArrayList<>((Collection) notas);
     }
 
     // Para mostrar en consola
