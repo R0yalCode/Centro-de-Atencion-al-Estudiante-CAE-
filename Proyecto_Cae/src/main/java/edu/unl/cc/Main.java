@@ -26,6 +26,7 @@ public class Main {
             System.out.println("8. Finalizar caso");
             System.out.println("9. Mostrar historial finalizados");
             System.out.println("10. Mostrar casos en espera");
+            System.out.println("11. Exportar datos a archivo");
             System.out.println("0. Salir");
             System.out.print("Opción: ");
 
@@ -83,6 +84,15 @@ public class Main {
                         break;
                     case 10:
                         gestor.mostrarCasosEnEspera();
+                        break;
+                    case 11:
+                        System.out.print("Ingrese el nombre del archivo (ej: datos_cae.txt): ");
+                        String nombreArchivo = sc.nextLine();
+                        // Si no incluye la extensión .txt, se la agregamos
+                        if (!nombreArchivo.endsWith(".txt")) {
+                            nombreArchivo += ".txt";
+                        }
+                        gestor.exportarDatos(nombreArchivo);
                         break;
                     case 0:
                         System.out.println("Saliendo del sistma...");
