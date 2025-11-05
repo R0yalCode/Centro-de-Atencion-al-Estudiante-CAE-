@@ -58,16 +58,23 @@ public class Main {
                         break;
                     case 5:
                         System.out.println("Estados disponibles:");
-                        for (TipoEstado e : TipoEstado.values()) {
-                            System.out.println("- " + e);
+                        TipoEstado[] estados = TipoEstado.values();
+                        for (int i = 0; i < estados.length; i++) {
+                            System.out.println((i + 1) + ". " + estados[i]);
                         }
-                        System.out.print("Nuevo estado: ");
-                        String estadoStr = sc.nextLine();
-                        try {
-                            TipoEstado nuevoEstado = TipoEstado.valueOf(estadoStr);
-                            gestor.cambiarEstado(nuevoEstado);
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Estado inválido.");
+                        System.out.print("Seleccione el número del nuevo estado: ");
+                        if (sc.hasNextInt()) {
+                            int seleccion = sc.nextInt();
+                            sc.nextLine();
+                            if (seleccion >= 1 && seleccion <= estados.length) {
+                                TipoEstado nuevoEstado = estados[seleccion - 1];
+                                gestor.cambiarEstado(nuevoEstado);
+                            } else {
+                                System.out.println("Selección fuera de rango.");
+                            }
+                        } else {
+                            System.out.println("Entrada inválida. Debe ingresar un número.");
+                            sc.nextLine();
                         }
                         break;
                     case 6:
