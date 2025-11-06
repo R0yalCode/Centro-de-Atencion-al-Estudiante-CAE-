@@ -131,24 +131,59 @@ Y por ultimo salimos del mini menú:
 <img width="661" height="600" alt="image" src="https://github.com/user-attachments/assets/399d546f-591e-4a37-adc3-71a8b34733c1" />
 
   
-- En la quinta opcion tenemos "Finalizar caso actual" esta opción básicamente es cuando ya queremos pasar a un caso nuevo , cabe recalcar , como mencionamos anteriormente, si hay un caso urgente, tomaría como prioridad ese caso.
+- En la quinta opcion tenemos "Finalizar caso actual" esta opción básicamente es cuando ya queremos pasar a un caso nuevo, cabe recalcar, como mencionamos anteriormente, si hay un caso urgente, tomaría como prioridad ese caso.
 <img width="685" height="427" alt="image" src="https://github.com/user-attachments/assets/b786e3a7-6b01-47c1-907a-95e7b61686ac" />
-
-
-
-
 
 
 ---
 
-##  Guía de ejecución
+## Requisitos previos
 
-###  Requisitos previos
-- **Java JDK 21** o superior.
-- Editor o terminal con acceso al compilador `javac`.
+Antes de ejecutar el proyecto, asegúrate de contar con el siguiente entorno:
+
+| Componente | Versión recomendada | Descripción |
+|-------------|---------------------|--------------|
+| **Java JDK** | **25 (OpenJDK 25)** | Requerido para compilar y ejecutar el proyecto. Puede descargarse desde [https://jdk.java.net/25/](https://jdk.java.net/25/). |
+| **Maven** | 3.9.x o superior | Maneja dependencias y estructura del proyecto. |
+| **IDE recomendado** | [Visual Studio Code](https://code.visualstudio.com/) con extensión *Extension Pack for Java* | Permite editar, compilar y ejecutar fácilmente. También puedes usar IntelliJ IDEA o Eclipse. |
+| **Sistema operativo** | Windows / Linux / macOS | Compatible con cualquier entorno que soporte JDK 25. |
+
+>  **Nota:** Asegúrate de tener configurada la variable de entorno `JAVA_HOME` apuntando al directorio donde está instalado el JDK 25, y de incluir `%JAVA_HOME%\bin` en el `PATH`.
+
+---
+
+## Guía de ejecución
+
+### Ejecución desde un IDE
+
+1. **Importa el proyecto** como **"Maven Project"** en tu IDE.
+2. **Verifica la estructura:**
+   - Marca `src/main/java` como *Source Root* si no lo está.
+3. **Ejecuta la clase principal:**
+   - Ubicación: `edu.unl.cc.service.Main`
+   - En VS Code: clic derecho sobre `Main.java` → *Run Java*.
+4. **(Opcional)** Para depuración (*debug*):
+   - Coloca puntos de interrupción en `MenuCAE` o `GestorCAE`.
+   - Ejecuta en modo *Debug* desde el IDE.
+
+---
+
+## Ejemplo de sesión (interacción típica)
+
+A continuación se muestra una ejecución de ejemplo.  
+Las entradas del usuario se indican después del símbolo `→`.
+
+### Inicio de la aplicación
+- El sistema muestra el menú con opciones **1..9** y **0** para salir.
+
+### Crear y encolar un caso
+
+---
 
 ### Nota sobre dependencias y diseño
 No se utilizaron APIs externas ni librerías de terceros. Se optó por implementar manualmente las estructuras de datos fundamentales (pilas, colas y listas enlazadas) para comprender mejor su funcionamiento y controlar explícitamente las referencias y operaciones sobre nodos.
+
+---
 
 ### Estructura del proyecto 
 El proyecto está organizado bajo el paquete `edu.unl.cc`. La estructura relevante del código fuente es la siguiente:
