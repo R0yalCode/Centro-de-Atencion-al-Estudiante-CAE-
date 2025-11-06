@@ -115,27 +115,43 @@ El proyecto está organizado bajo el paquete `edu.unl.cc`. La estructura relevan
 
 ```bash
 Proyecto_Cae/
-├── pom.xml
-├── src/
-│   ├── main/
-│   │   └── java/edu/unl/cc/
-│   │       ├── Main.java
-│   │       ├── dominio/
-│   │       │   ├── Accion.java
-│   │       │   ├── Caso.java
-│   │       │   ├── Nota.java
-│   │       │   └── TipoEstado.java
-│   │       ├── estructuras/
-│   │       │   ├── Cola.java
-│   │       │   ├── Lista.java
-│   │       │   ├── Nodo.java
-│   │       │   └── Pila.java
-│   │       ├── exception/
-│   │       │   └── NombreInvalidoException.java
-│   │       └── service/
-│   │           └── GestorCAE.java
-│   └── test/
-│       └── java/edu/unl/cc/service/GestorCAETest.java     
+├── `.gitignore`
+├── `pom.xml`
+├── `.idea/`
+│   └── (configuración del IDE)
+├── `src/`
+│   ├── `main/`
+│   │   └── `java/edu/unl/cc/`
+│   │       ├── `service/`
+│   │       │   ├── `Main.java`
+│   │       │   ├── `CasoManager.java`
+│   │       │   ├── `GestorCAE.java`
+│   │       │   ├── `HistorialAcciones.java`
+│   │       │   ├── `MenuCAE.java`
+│   │       │   └── `NotaManager.java`
+│   │       ├── `modelo/`
+│   │       │   ├── `Accion.java`
+│   │       │   ├── `Caso.java`
+│   │       │   └── `EstadoCaso.java`
+│   │       ├── `dominio/`
+│   │       │   ├── `Accion.java`
+│   │       │   ├── `Caso.java`
+│   │       │   ├── `Nota.java`
+│   │       │   └── `TipoEstado.java`
+│   │       ├── `estructuras/`
+│   │       │   ├── `Cola.java`
+│   │       │   ├── `ColaCasos.java`
+│   │       │   ├── `Lista.java`
+│   │       │   ├── `ListaNotas.java`
+│   │       │   ├── `Nodo.java`
+│   │       │   ├── `Pila.java`
+│   │       │   └── `PilaAcciones.java`
+│   │       └── `exception/`
+│   │           └── `NombreInvalidoException.java`
+│   └── `test/`
+│       └── `java/edu/unl/cc/service/`
+│           └── `GestorCAETest.java`
+└── `README.md`  
 ```
 
  
