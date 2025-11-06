@@ -121,69 +121,40 @@ Y por ultimo salimos del mini menú:
 <img width="419" height="318" alt="image" src="https://github.com/user-attachments/assets/f0f67809-adcf-4cac-a492-9eac8333bb4a" />
 
 
-
-
-
-
-  
 - En la cuarta opción tenemos "Cambiar estado del caso actual"  lo cual en si por defecto cuando se atiende un caso selecciona un estado el cual seria : "EN_ATENCION", aquí podemos básicamente cambiar el estado del caso, existen 6 tipos de estados cómo podemos observar, los cuales son: EN_COLA, URGENTE, EN_ATENCION, EN_PROCESO, PENDIENTE_DOCUMENTOS, COMPLETADO.
 
 <img width="661" height="600" alt="image" src="https://github.com/user-attachments/assets/399d546f-591e-4a37-adc3-71a8b34733c1" />
 
   
-- En la quinta opcion tenemos "Finalizar caso actual" esta opción básicamente es cuando ya queremos pasar a un caso nuevo, cabe recalcar, como mencionamos anteriormente, si hay un caso urgente, tomaría como prioridad ese caso.
+- En la quinta opcion tenemos "Finalizar caso actual" esta opción básicamente es cuando ya queremos pasar a un caso nuevo , cabe recalcar , como mencionamos anteriormente, si hay un caso urgente, tomaría como prioridad ese caso.
 <img width="685" height="427" alt="image" src="https://github.com/user-attachments/assets/b786e3a7-6b01-47c1-907a-95e7b61686ac" />
 
+- En la sexta opción tenemos "Mostrar historial" lo que basicamente va a enseñar el orden de los tickets creados y su estado actual, al seleccionar cualquiera de los dos , va a mostrar una descripcion de ellos:
+
+<img width="604" height="729" alt="image" src="https://github.com/user-attachments/assets/44dc6dea-8ce1-4559-8c6b-0e1a6c1d069f" />
+
+
+- En la septima opcion tenemos" Borrar archivo de ticket finalizado" lo cual se lo elimina mediante un ID, como obseramos , cuando se acaba un caso se completa y genera un arhico.txt y a este le otorga un ID, es escencial para su eliminación:
+
+<img width="676" height="416" alt="image" src="https://github.com/user-attachments/assets/26ea19fb-8710-469a-88f5-e2206ce5eb8e" />
+
+  
+- En la opcion numero Cero, es basicamente para salir del sistema.
+
+
+<img width="538" height="437" alt="image" src="https://github.com/user-attachments/assets/c63fbba7-804b-4ee1-8457-8f08e9347037" />
+
 
 ---
 
-## Requisitos previos
+##  Guía de ejecución
 
-Antes de ejecutar el proyecto, asegúrate de contar con el siguiente entorno:
-
-| Componente | Versión recomendada | Descripción |
-|-------------|---------------------|--------------|
-| **Java JDK** | **25 (OpenJDK 25)** | Requerido para compilar y ejecutar el proyecto. Puede descargarse desde [https://jdk.java.net/25/](https://jdk.java.net/25/). |
-| **Maven** | 3.9.x o superior | Maneja dependencias y estructura del proyecto. |
-| **IDE recomendado** | [Visual Studio Code](https://code.visualstudio.com/) con extensión *Extension Pack for Java* | Permite editar, compilar y ejecutar fácilmente. También puedes usar IntelliJ IDEA o Eclipse. |
-| **Sistema operativo** | Windows / Linux / macOS | Compatible con cualquier entorno que soporte JDK 25. |
-
->  **Nota:** Asegúrate de tener configurada la variable de entorno `JAVA_HOME` apuntando al directorio donde está instalado el JDK 25, y de incluir `%JAVA_HOME%\bin` en el `PATH`.
-
----
-
-## Guía de ejecución
-
-### Ejecución desde un IDE
-
-1. **Importa el proyecto** como **"Maven Project"** en tu IDE.
-2. **Verifica la estructura:**
-   - Marca `src/main/java` como *Source Root* si no lo está.
-3. **Ejecuta la clase principal:**
-   - Ubicación: `edu.unl.cc.service.Main`
-   - En VS Code: clic derecho sobre `Main.java` → *Run Java*.
-4. **(Opcional)** Para depuración (*debug*):
-   - Coloca puntos de interrupción en `MenuCAE` o `GestorCAE`.
-   - Ejecuta en modo *Debug* desde el IDE.
-
----
-
-## Ejemplo de sesión (interacción típica)
-
-A continuación se muestra una ejecución de ejemplo.  
-Las entradas del usuario se indican después del símbolo `→`.
-
-### Inicio de la aplicación
-- El sistema muestra el menú con opciones **1..9** y **0** para salir.
-
-### Crear y encolar un caso
-
----
+###  Requisitos previos
+- **Java JDK 21** o superior.
+- Editor o terminal con acceso al compilador `javac`.
 
 ### Nota sobre dependencias y diseño
 No se utilizaron APIs externas ni librerías de terceros. Se optó por implementar manualmente las estructuras de datos fundamentales (pilas, colas y listas enlazadas) para comprender mejor su funcionamiento y controlar explícitamente las referencias y operaciones sobre nodos.
-
----
 
 ### Estructura del proyecto 
 El proyecto está organizado bajo el paquete `edu.unl.cc`. La estructura relevante del código fuente es la siguiente:
