@@ -49,18 +49,21 @@ Además, se incorpora un mecanismo de **deshacer (Undo)** y **rehacer (Redo)** p
 
 ---
 
-##  Casos borde considerados
+## Casos borde considerados
 
 | Situación | Manejo implementado |
 |------------|---------------------|
-| Atender cuando la cola está vacía | Mensaje de advertencia: *"No hay tickets en espera."* |
-| Registrar nota sin ticket activo | Mensaje: *"No hay ticket en atención."* |
-| Eliminar nota inexistente | Retorna `false` sin romper la lista |
-| Deshacer sin acciones previas | Pila vacía, sin efecto ni error |
-| Rehacer sin acciones pendientes | Pila vacía, sin efecto ni error |
-| Finalizar ticket sin haber uno en atención | Previene acción y muestra advertencia |
-| Estructura vacía (cola/lista) | Mensaje informativo en lugar de excepción |
-| Ingreso de opción no numérica | Validación con `try/catch` al leer enteros |
+| **Atender cuando la cola está vacía** | Se muestra advertencia: *"No hay tickets en espera."* y no se intenta atender. |
+| **Registrar nota sin ticket activo** | Se muestra *"No hay ticket en atención."* y la nota no se agrega. |
+| **Eliminar nota inexistente** | El método devuelve `false` o muestra mensaje; la lista no se rompe (borrado seguro en `ListaNotas`). |
+| **Deshacer sin acciones previas** | Pila de *undo* vacía: operación sin efecto y sin excepción (control en `HistorialAcciones`). |
+| **Rehacer sin acciones pendientes** | Pila de *redo* vacía: operación sin efecto y sin excepción. |
+| **Finalizar ticket sin haber uno en atención** | Acción prevenida: se muestra advertencia y no se finaliza nada. |
+| **Estructura vacía (cola/lista)** | Se informa al usuario mediante mensajes informativos en lugar de lanzar excepciones. |
+| **Ingreso de opción no numérica en el menú** | Validación con `try/catch` al parsear enteros (se muestra *"Opción inválida"* o se solicita reintento). |
+| **Crear caso con nombre inválido** | Se lanza o gestiona `NombreInvalidoException` según la validación definida; la creación se aborta hasta corregir. |
+| **Deshacer una acción crítica (ej. creación de caso)** | El manejo depende del alcance de `HistorialAcciones`; se evita comportamiento destructivo sin confirmación (puede requerir confirmación para operaciones irreversibles). |
+
 
 ---
 
