@@ -75,30 +75,18 @@ Además, se incorpora un mecanismo de **deshacer (Undo)** y **rehacer (Redo)** p
 
 ## Capturas de pruebas por operacion
 
-#### Cola - Encolar/ Desencolar
-<img width="261" height="117" alt="image" src="https://github.com/user-attachments/assets/98a0fbbb-214a-41e5-ae2f-ee0c031b5ed2" />
+-Al iniciar nuestro proyecto se nos va a desplegar un Menú el cual tiene varias opciones a elegir
+-En La primera opción tenemos "Recibir nuevo caso", esto lo que hará es añadir un caso nuevo y solicitar el nombre, acto seguido realiza una pregunta de que si es urgente o no, en caso de que si, seleccionar S y en caso contrario seleccionar N.
+En caso de que seleccionemos S, el caso registrado tomara prioridad ante otros casos creados
+- En la segunda opción tenemos "Atender siguiente caso, lo cual hará es tomar al primer caso recibido y a este lo atenderá 
+- En la Tercera opción tenemos "Agregar nota del caso actual" lo cual básicamente lo que realizará es agregarle cómo una descripción sobre su caso, esta puede ser opcional, y además se puede añadir más de una nota, a cada nota se le otorga un ID unico.
+- En la cuarta opción tenemos "Eliminar nota del caso actual" lo cual básicamente lo que te solicita es el id de la nota que se registro en el paso anterior y a esta la elimina de la lista de notas de el caso atendido
+-En la quinta opción tenemos "Cambiar estado del caso actual"  lo cual en si por defecto cuando se atiende un caso selecciona un estado el cual seria : "EN_ATENCION", aquí podemos básicamente cambiar el estado del caso, existen 6 tipos de estados cómo podemos observar, los cuales son: EN_COLA, URGENTE, EN_ATENCION, EN_PROCESO, PENDIENTE_DOCUMENTOS, COMPLETADO.
+-En la sexta opción tenemos "Deshacer la ultima acción" lo cual básicamente es como un ctr+z ya que por ejemplo si eliminamos una nota o cambiamos de estado al caso, lo que hará es dar un paso atrás a las acciones realizadas, y así sucesivamente dependiendo del contexto.
+- En la séptima opción tenemos el rehacer acción desecha lo cual básicamente es lo contrario a la opción anterior ya que es cómo un ctr+y, ya que digamos queríamos eliminar una nota, y se nos fueron dos notas eliminadas, lo que hace esta opción es básicamente arreglar eso, ya que es cómo por asi decir restablece lo ya re eliminado.
+- En la octava opcion tenemos "Finalizar caso actual" esta opción básicamente es cuando ya queremos pasar a un caso nuevo , cabe recalcar , como mencionamos anteriormente, si hay un caso urgente, tomaría como prioridad ese caso.
 
-- Se muestran las lineas de la recepcion de los casos, con la lista de los casos en espera con la opcion 10.
 
-#### Flujo completo
-<img width="361" height="246" alt="image" src="https://github.com/user-attachments/assets/c7ea3bef-1142-44f8-9a6d-9d8ecebd049f" />
-
-- Flujo completo del sistema donde se recibe los casos, se los atiende, se les agrega una nota, se finaliza el caso, con su respectiva nota.
-
-#### Lista enlazada -  Insertar / ELimnar nota
-<img width="360" height="223" alt="image" src="https://github.com/user-attachments/assets/22c133fb-eb57-42aa-bf63-6be121ee63b6" />
-
-- Se añade dos notas y se elimina la primera, despues se visualiza los casos finalizados con la opcion 9.
-
-#### Pila - Pus/Pop
-<img width="288" height="241" alt="image" src="https://github.com/user-attachments/assets/83eb51a4-ec53-42c7-8d61-42f1b7626dee" />
-
-- Se añaden dos notas, despues se coloca deshacer dos veces, visualizando como se han deshecho. 
-
-#### Undo/Redo - Revertir o rehacer la ultima accion
-<img width="315" height="195" alt="image" src="https://github.com/user-attachments/assets/6f0aed03-3bdb-410f-a939-2845620025e5" />
-
-- Se muestra como se puede deshacer y rehacer una nota, con todo el flujo del sistema.  
 
 
 
