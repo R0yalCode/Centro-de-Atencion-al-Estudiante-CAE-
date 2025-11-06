@@ -117,30 +117,28 @@ No se utilizaron APIs externas ni librerías de terceros. Se optó por implement
 El proyecto está organizado bajo el paquete `edu.unl.cc`. La estructura relevante del código fuente es la siguiente:
 
 ```bash
-src/
-└── main/
-  └── java/
-    └── edu/
-      └── unl/
-        └── cc/
-          ├── Main.java
-          ├── dominio/
-          │   ├── Accion.java
-          │   ├── Caso.java
-          │   ├── Nota.java
-          │   └── TipoEstado.java
-          │
-          ├── estructuras/
-          │   ├── Cola.java
-          │   ├── Lista.java
-          │   ├── Nodo.java
-          │   └── Pila.java
-          │
-          ├── exception/
-          │   └── NombreInvalidoException.java
-          │
-          └── service/
-            └── GestorCAE.java
+Proyecto_Cae/
+├── pom.xml
+├── src/
+│   ├── main/
+│   │   └── java/edu/unl/cc/
+│   │       ├── Main.java
+│   │       ├── dominio/
+│   │       │   ├── Accion.java
+│   │       │   ├── Caso.java
+│   │       │   ├── Nota.java
+│   │       │   └── TipoEstado.java
+│   │       ├── estructuras/
+│   │       │   ├── Cola.java
+│   │       │   ├── Lista.java
+│   │       │   ├── Nodo.java
+│   │       │   └── Pila.java
+│   │       ├── exception/
+│   │       │   └── NombreInvalidoException.java
+│   │       └── service/
+│   │           └── GestorCAE.java
+│   └── test/
+│       └── java/edu/unl/cc/service/GestorCAETest.java     
 ```
 
  
