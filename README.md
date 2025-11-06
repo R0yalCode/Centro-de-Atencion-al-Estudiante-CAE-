@@ -77,6 +77,8 @@ Además, se incorpora un mecanismo de **deshacer (Undo)** y **rehacer (Redo)** p
 | **Undo/Redo** | Revertir o rehacer última acción | Estado del ticket y notas coherente |
 | **Módulo Consola** | Flujo completo de atención | Ejecución sin excepciones, comportamiento coherente |
 
+---
+
 ## Capturas de pruebas por operacion
 
 - Al iniciar nuestro proyecto se nos va a desplegar un Menú el cual tiene varias opciones a elegir.
@@ -88,7 +90,6 @@ En caso de que seleccionemos S, el caso registrado tomara prioridad ante otros c
 <img width="446" height="443" alt="image" src="https://github.com/user-attachments/assets/dbb3db95-09f3-4113-ab97-82f151347d9e" />
 
 <img width="506" height="439" alt="image" src="https://github.com/user-attachments/assets/a863fab0-cfdf-42cb-8447-99eb5bd839dd" />
-
 
 
 - En la segunda opción tenemos "Atender siguiente caso, lo cual hará es tomar al primer caso recibido y a este lo atenderá, pero cómo anteriormente seleccionamos que Juan es caso urgente, lo toma cómo prioridad.
@@ -138,7 +139,7 @@ Y por ultimo salimos del mini menú:
 <img width="604" height="729" alt="image" src="https://github.com/user-attachments/assets/44dc6dea-8ce1-4559-8c6b-0e1a6c1d069f" />
 
 
-- En la septima opcion tenemos" Borrar archivo de ticket finalizado" lo cual se lo elimina mediante un ID, como obseramos , cuando se acaba un caso se completa y genera un arhico.txt y a este le otorga un ID, es escencial para su eliminación:
+- En la septima opcion tenemos" Borrar archivo de ticket finalizado" lo cual se lo elimina mediante un ID, como obseramos, cuando se acaba un caso se completa y genera un arhico.txt y a este le otorga un ID, es escencial para su eliminación:
 
 <img width="676" height="416" alt="image" src="https://github.com/user-attachments/assets/26ea19fb-8710-469a-88f5-e2206ce5eb8e" />
 
@@ -151,14 +152,42 @@ Y por ultimo salimos del mini menú:
 
 ---
 
-##  Guía de ejecución
+## Requisitos previos
 
-###  Requisitos previos
-- **Java JDK 21** o superior.
-- Editor o terminal con acceso al compilador `javac`.
+Antes de ejecutar el proyecto, asegúrate de contar con el siguiente entorno:
+
+| Componente | Versión recomendada | Descripción |
+|-------------|---------------------|--------------|
+| **Java JDK** | **25 (OpenJDK 25)** | Requerido para compilar y ejecutar el proyecto. Puede descargarse desde [https://jdk.java.net/25/](https://jdk.java.net/25/). |
+| **Maven** | 3.9.x o superior | Maneja dependencias y estructura del proyecto. |
+| **IDE recomendado** | [Visual Studio Code](https://code.visualstudio.com/) con extensión *Extension Pack for Java* | Permite editar, compilar y ejecutar fácilmente. También puedes usar IntelliJ IDEA o Eclipse. |
+| **Sistema operativo** | Windows / Linux / macOS | Compatible con cualquier entorno que soporte JDK 25. |
+
+>  **Nota:** Asegúrate de tener configurada la variable de entorno `JAVA_HOME` apuntando al directorio donde está instalado el JDK 25, y de incluir `%JAVA_HOME%\bin` en el `PATH`.
+
+---
+
+## Guía de ejecución
+
+### Ejecución desde un IDE
+
+1. **Importa el proyecto** como **"Maven Project"** en tu IDE.
+2. **Verifica la estructura:**
+   - Marca `src/main/java` como *Source Root* si no lo está.
+3. **Ejecuta la clase principal:**
+   - Ubicación: `edu.unl.cc.service.Main`
+   - En VS Code: clic derecho sobre `Main.java` → *Run Java*.
+4. **(Opcional)** Para depuración (*debug*):
+   - Coloca puntos de interrupción en `MenuCAE` o `GestorCAE`.
+   - Ejecuta en modo *Debug* desde el IDE.
+
+---
+
 
 ### Nota sobre dependencias y diseño
 No se utilizaron APIs externas ni librerías de terceros. Se optó por implementar manualmente las estructuras de datos fundamentales (pilas, colas y listas enlazadas) para comprender mejor su funcionamiento y controlar explícitamente las referencias y operaciones sobre nodos.
+
+---
 
 ### Estructura del proyecto 
 El proyecto está organizado bajo el paquete `edu.unl.cc`. La estructura relevante del código fuente es la siguiente:
@@ -203,8 +232,7 @@ Proyecto_Cae/
 │           └── `GestorCAETest.java`
 └── `README.md`  
 ```
-
- 
+ ---
 
 ## Autores: 
 ### [Steeven Pardo](https://github.com/Dan1el17)
