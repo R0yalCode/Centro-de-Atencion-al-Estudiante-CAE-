@@ -2,7 +2,7 @@ package edu.unl.cc.modelo;
 
 /**
  * @author Steeven Pardo, Juan Calopino, Royel Jima, Daniel Savedra
- * @version 2.0
+ * @version 1.1
  */
 
 public enum EstadoCaso {

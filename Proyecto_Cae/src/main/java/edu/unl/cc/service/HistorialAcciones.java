@@ -4,34 +4,51 @@ import edu.unl.cc.estructuras.PilaAcciones;
 import edu.unl.cc.modelo.Accion;
 import edu.unl.cc.modelo.Caso;
 
+/**
+ * Esta clase se encarga de registrar y gestionar el historial de acciones
+ * realizadas sobre el caso actual
+ *
+ * @author Steeven Pardo, Juan Calopino, Daniel Savedra, Royel Jima
+ * @version 1.1
+ */
 public class HistorialAcciones {
-    private final PilaAcciones pilaUndo = new PilaAcciones();
-    private final PilaAcciones pilaRedo = new PilaAcciones();
-    private final CasoManager casoManager;
 
+    // Atributos
+    private final PilaAcciones pilaUndo = new PilaAcciones(); // Pila para deshacer acciones
+    private final PilaAcciones pilaRedo = new PilaAcciones(); // Pila para rehacer acciones
+    private final CasoManager casoManager;                    // Referencia al gestor de casos
+
+    // Constructor
     public HistorialAcciones(CasoManager casoManager) {
         this.casoManager = casoManager;
     }
 
+    /**
+     * Registra una nueva acción en la pila de deshacer y limpia la pila de rehacer
+     * @param accion Acción realizada sobre el caso actual
+     */
     public void registrar(Accion accion) {
         pilaUndo.registrar(accion);
         pilaRedo.limpiar();
     }
 
-    public void deshacer() {
+    /**
+     * Deshace la última acción realizada sobre el caso actual
+     * @return La acción que fue deshecha o si no null si no se pudo deshacer
+     */
+    public Accion deshacer() {
         Accion accion = pilaUndo.deshacer();
         Caso caso = casoManager.getCasoActual();
 
         if (accion == null) {
             System.out.println("No hay acciones para deshacer.");
-            return;
+            return null;
         }
 
         if (caso == null || accion.getCasoId() != caso.getId()) {
             System.out.println("La acción no corresponde al caso actual.");
-            return;
+            return null;
         }
-
         pilaRedo.registrar(accion);
 
         switch (accion.getTipo()) {
@@ -48,20 +65,26 @@ public class HistorialAcciones {
                 System.out.println("Deshacer: estado restaurado a → " + accion.getEstadoAnterior());
             }
         }
+
+        return accion;
     }
 
-    public void rehacer() {
+    /**
+     * Rehace la última acción que fue deshecha previamente
+     * @return La acción que fue rehecha o si no null si no se pudo rehacer
+     */
+    public Accion rehacer() {
         Accion accion = pilaRedo.deshacer();
         Caso caso = casoManager.getCasoActual();
 
         if (accion == null) {
             System.out.println("No hay acciones para rehacer.");
-            return;
+            return null;
         }
 
         if (caso == null || accion.getCasoId() != caso.getId()) {
             System.out.println("La acción no corresponde al caso actual.");
-            return;
+            return null;
         }
 
         pilaUndo.registrar(accion);
@@ -80,5 +103,7 @@ public class HistorialAcciones {
                 System.out.println("Rehacer: estado cambiado a → " + accion.getEstadoNuevo());
             }
         }
+
+        return accion;
     }
 }

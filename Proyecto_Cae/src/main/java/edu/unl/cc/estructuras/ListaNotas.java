@@ -1,13 +1,10 @@
 package edu.unl.cc.estructuras;
 
 /**
- * Clase que representa una lista enlazada de notas asociadas a un caso.
- * Permite insertar, eliminar por coincidencia o por índice, y recorrer las notas.
+ * Clase que representa una lista enlazada de notas enlazadas a un caso
+ * Permite insertar, eliminar por coincidencia o por índice, y recorrer las notas
  *
- * @author Steeven Pardo,
- *         Juan Calopino,
- *         Daniel Savedra,
- *         Royel Jima
+ * @author Steeven Pardo, Juan Calopino, Daniel Savedra, Royel Jima
  * @version 1.1
  */
 public class ListaNotas {
@@ -18,8 +15,8 @@ public class ListaNotas {
     }
 
     /**
-     * Inserta una nueva nota al inicio de la lista.
-     * @param nuevo Nodo que contiene el texto de la nota.
+     * Inserta una nueva nota al inicio de la lista
+     * @param nuevo Nodo que contiene el texto de la nota
      */
     public void insertar(Nodo nuevo) {
         nuevo.setSiguiente(principal);
@@ -27,7 +24,7 @@ public class ListaNotas {
     }
 
     /**
-     * Elimina la primera nota que coincida exactamente con el texto dado.
+     * Elimina la primera nota que coincida exactamente con el texto dado
      * @param texto Texto de la nota a eliminar.
      */
     public void eliminarPrimeraCoincidencia(String texto) {
@@ -52,9 +49,9 @@ public class ListaNotas {
     }
 
     /**
-     * Elimina la nota ubicada en la posición indicada (basado en índice 0) y devuelve su texto.
-     * @param indice Posición de la nota a eliminar.
-     * @return Texto de la nota eliminada, o null si el índice es inválido.
+     * Elimina la nota ubicada en la posición indicada y devuelve su texto
+     * @param indice Posición de la nota a eliminar
+     * @return Texto de la nota eliminada
      */
     public String eliminarPorIndiceYObtenerTexto(int indice) {
         if (indice < 0) return null;
@@ -77,29 +74,28 @@ public class ListaNotas {
             actual = actual.getSiguiente();
             contador++;
         }
-
-        return null; // índice fuera de rango
+        return null;
     }
 
     /**
-     * Verifica si la lista de notas está vacía.
-     * @return true si no hay notas, false si hay al menos una.
+     * Verifica si la lista de notas está vacía
+     * @return true si no hay notas o si no false si hay al menos una
      */
     public boolean estaVacia() {
         return principal == null;
     }
 
     /**
-     * Devuelve el nodo principal de la lista.
-     * @return Nodo inicial (cabeza) de la lista.
+     * Devuelve el nodo principal de la lista
+     * @return Nodo cabeza de la lista
      */
     public Nodo getPrincipal() {
         return principal;
     }
 
     /**
-     * Devuelve una representación en texto de todas las notas.
-     * @return String con cada nota en una línea.
+     * Devuelve una representación en texto de todas las notas
+     * @return String
      */
     @Override
     public String toString() {

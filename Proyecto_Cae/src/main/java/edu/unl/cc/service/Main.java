@@ -20,13 +20,11 @@ public class Main {
             System.out.println("\n--- MENÚ CAE ---");
             System.out.println("1. Recibir nuevo caso");
             System.out.println("2. Atender siguiente caso");
-            System.out.println("3. Agregar nota al caso actual");
-            System.out.println("4. Eliminar nota del caso actual");
-            System.out.println("5. Cambiar estado del caso actual");
-            System.out.println("6. Deshacer última acción");
-            System.out.println("7. Rehacer acción deshecha");
-            System.out.println("8. Finalizar caso actual");
-            System.out.println("9. Mostrar historial");
+            System.out.println("3. Agregar o eliminar notas");
+            System.out.println("4. Cambiar estado del caso actual");
+            System.out.println("5. Finalizar caso actual");
+            System.out.println("6. Mostrar historial");
+            System.out.println("7. Borrar archivo de ticket finalizado");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
 
@@ -39,14 +37,12 @@ public class Main {
             switch (opcion) {
                 case 1 -> menu.recibirCaso();
                 case 2 -> gestor.atenderSiguienteCaso();
-                case 3 -> menu.agregarNotas();
-                case 4 -> menu.eliminarNotas();
-                case 5 -> menu.cambiarEstado();
-                case 6 -> gestor.deshacer();
-                case 7 -> gestor.rehacer();
-                case 8 -> gestor.finalizarCaso();
-                case 9 -> menu.mostrarHistorialTickets();
-                case 0 -> System.out.println("Saliendo del sistema...");
+                case 3 -> menu.menuNotas();
+                case 4 -> menu.cambiarEstado();
+                case 5 -> gestor.finalizarCaso();
+                case 6 -> menu.mostrarHistorialTickets();
+                case 7 -> menu.borrarArchivoTicket();
+                case 0 -> System.out.println("GRACIAS: Saliendo del sistema...");
                 default -> System.out.println("Opción inválida.");
             }
 
