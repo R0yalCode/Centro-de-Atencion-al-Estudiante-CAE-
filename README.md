@@ -75,15 +75,24 @@ Además, se incorpora un mecanismo de **deshacer (Undo)** y **rehacer (Redo)** p
 
 ## Capturas de pruebas por operacion
 
--Al iniciar nuestro proyecto se nos va a desplegar un Menú el cual tiene varias opciones a elegir
+-Al iniciar nuestro proyecto se nos va a desplegar un Menú el cual tiene varias opciones a elegir.
+
+
 -En La primera opción tenemos "Recibir nuevo caso", esto lo que hará es añadir un caso nuevo y solicitar el nombre, acto seguido realiza una pregunta de que si es urgente o no, en caso de que si, seleccionar S y en caso contrario seleccionar N.
 En caso de que seleccionemos S, el caso registrado tomara prioridad ante otros casos creados
-- En la segunda opción tenemos "Atender siguiente caso, lo cual hará es tomar al primer caso recibido y a este lo atenderá 
+
+- En la segunda opción tenemos "Atender siguiente caso, lo cual hará es tomar al primer caso recibido y a este lo atenderá
+  
 - En la Tercera opción tenemos "Agregar nota del caso actual" lo cual básicamente lo que realizará es agregarle cómo una descripción sobre su caso, esta puede ser opcional, y además se puede añadir más de una nota, a cada nota se le otorga un ID unico.
+
 - En la cuarta opción tenemos "Eliminar nota del caso actual" lo cual básicamente lo que te solicita es el id de la nota que se registro en el paso anterior y a esta la elimina de la lista de notas de el caso atendido
+  
 -En la quinta opción tenemos "Cambiar estado del caso actual"  lo cual en si por defecto cuando se atiende un caso selecciona un estado el cual seria : "EN_ATENCION", aquí podemos básicamente cambiar el estado del caso, existen 6 tipos de estados cómo podemos observar, los cuales son: EN_COLA, URGENTE, EN_ATENCION, EN_PROCESO, PENDIENTE_DOCUMENTOS, COMPLETADO.
+
 -En la sexta opción tenemos "Deshacer la ultima acción" lo cual básicamente es como un ctr+z ya que por ejemplo si eliminamos una nota o cambiamos de estado al caso, lo que hará es dar un paso atrás a las acciones realizadas, y así sucesivamente dependiendo del contexto.
+
 - En la séptima opción tenemos el rehacer acción desecha lo cual básicamente es lo contrario a la opción anterior ya que es cómo un ctr+y, ya que digamos queríamos eliminar una nota, y se nos fueron dos notas eliminadas, lo que hace esta opción es básicamente arreglar eso, ya que es cómo por asi decir restablece lo ya re eliminado.
+  
 - En la octava opcion tenemos "Finalizar caso actual" esta opción básicamente es cuando ya queremos pasar a un caso nuevo , cabe recalcar , como mencionamos anteriormente, si hay un caso urgente, tomaría como prioridad ese caso.
 
 
