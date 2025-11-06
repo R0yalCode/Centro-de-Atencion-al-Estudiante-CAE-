@@ -1,268 +1,283 @@
 package edu.unl.cc.service;
-/**
- * @author Steeven Pardo, Juan Calopino, Daniel Savedra, Royel Jima
- * @version 1.0
- */
-import edu.unl.cc.dominio.*;
-import edu.unl.cc.estructuras.*;
-import java.util.ArrayList; // Para manejar listas dinámicas
+
+import edu.unl.cc.exception.NombreInvalidoException;
+import edu.unl.cc.modelo.Accion;
+import edu.unl.cc.modelo.Caso;
+import edu.unl.cc.modelo.EstadoCaso;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
-import edu.unl.cc.exception.NombreInvalidoException; // Excepción personalizada para validar nombres
-
+/**
+ * Esta clase coordina todas las operaciones del sistema
+ * Se encarga de recibir casos, atenderlos, gestionar notas, cambiar estados,
+ * registrar acciones y guardar la información en archivos txt
+ *
+ * @author Steeven Pardo, Juan Calopino, Daniel Savedra, Royel Jima
+ * @version 1.1
+ */
 public class GestorCAE {
-    private Cola cola = new Cola(); // Cola para casos en espera
-    private Pila pilaUndo = new Pila(); // Pila para acciones que se pueden deshacer
-    private Pila pilaRedo = new Pila(); // Pila para acciones que se pueden rehacer
-    private Caso casoActual = null; // Caso que se está atendiendo actualmente
-    private List<Caso> casosFinalizados = new ArrayList<>(); // Lista de casos ya finalizados
-    private int contadorId = 1; // Contador para asignar ID único a cada caso
 
-    // Método para recibir un nuevo caso
-    public void recibirCaso(String nombreEstudiante) throws NombreInvalidoException {
-        String limpio = nombreEstudiante.trim(); // Eliminamos espacios al inicio y al final
-        // Validamos que el nombre no esté vacío y solo contenga letras y espacios
-        if (limpio.isEmpty() || !limpio.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-            throw new NombreInvalidoException("El nombre del estudiante no puede contener números ni símbolos ni espacios vacios.");
+    private final CasoManager casoManager = new CasoManager(); // Gestor de casos
+    private final NotaManager notaManager = new NotaManager(casoManager); // Gestor de notas
+    private final HistorialAcciones historial = new HistorialAcciones(casoManager); // Historial para las acciones
+
+    /**
+     * Recibe un nuevo caso y lo agrega al sistema
+     * @param nombre Nombre del estudiante
+     * @param esUrgente Indica si el caso es urgente
+     */
+    public void recibirCaso(String nombre, boolean esUrgente) {
+        try {
+            Caso nuevo = casoManager.recibirCaso(nombre, esUrgente);
+            System.out.println("Caso recibido: " + nuevo.getId() + " - " + nuevo.getEstudiante());
+        } catch (NombreInvalidoException e) {
+            System.out.println(e.getMessage());
         }
-        Caso nuevo = new Caso(contadorId++, nombreEstudiante); // Creamos el nuevo caso con ID único
-        cola.agregarCaso(nuevo); // Lo agregamos a la cola de espera
-        System.out.println("Caso recibido: " + nuevo.getId() + " - " + nombreEstudiante); // Confirmamos en consola
     }
 
-    // Método para atender el siguiente caso en la cola
+    /**
+     * Atiende el siguiente caso disponible en la cola
+     */
     public void atenderSiguienteCaso() {
-        if (cola.estaVacia()) { // Si no hay casos en espera, mostramos mensaje
-            System.out.println("No hay casos en espera.");
-            return;
-        }
-        casoActual = cola.atenderCaso(); // Extraemos el siguiente caso de la cola
-        casoActual.setEstado(TipoEstado.EN_ATENCION); // Cambiamos su estado a "En atención"
-        pilaUndo = new Pila(); // Reiniciamos la pila de deshacer
-        pilaRedo = new Pila(); // Reiniciamos la pila de rehacer
-        System.out.println("Atendiendo caso: " + casoActual.getId() + " - " + casoActual.getEstudiante()); // Mostramos el caso atendido
+        casoManager.atenderSiguienteCaso();
     }
 
-    // Método para agregar una nota al caso actual
+    /**
+     * Agrega una nota al caso actual y la registra en el historial
+     * @param texto Contenido de la nota
+     */
     public void agregarNota(String texto) {
-        if (casoActual == null) { // Validamos que haya un caso en atención
+        Caso caso = casoManager.getCasoActual();
+        if (caso == null) {
+            System.out.println("No se puede agregar nota. No hay un caso en atención.");
+            return;
+        }
+        notaManager.agregarNota(texto);
+        historial.registrar(new Accion(caso.getId(), Accion.Tipo.AGREGAR_NOTA, texto));
+    }
+
+    /**
+     * Elimina una nota por índice y la registra en el historial
+     * @param indice Índice de la nota a eliminar
+     * @return Texto de la nota eliminada
+     */
+    public String eliminarNotaPorIndice(int indice) {
+        Caso caso = casoManager.getCasoActual();
+        if (caso == null || notaManager.casoActualSinNotas()) {
+            System.out.println("No hay notas para eliminar.");
+            return null;
+        }
+        String notaEliminada = notaManager.eliminarNotaPorIndice(indice);
+        if (notaEliminada != null) {
+            historial.registrar(new Accion(caso.getId(), Accion.Tipo.ELIMINAR_NOTA, notaEliminada));
+        } else {
+            System.out.println("Índice inválido.");
+        }
+        return notaEliminada;
+    }
+
+    /**
+     * Muestra las notas del caso actual
+     * @param paraEliminar Indica si se mostrarán con índice para eliminar
+     */
+    public void mostrarNotasActual(boolean paraEliminar) {
+        notaManager.mostrarNotasActual(paraEliminar);
+    }
+
+    /**
+     * Verifica si el caso actual no tiene notas.
+     * @return true si no hay notas, false si hay al menos una
+     */
+    public boolean casoActualSinNotas() {
+        return notaManager.casoActualSinNotas();
+    }
+
+    /**
+     * Cambia el estado del caso actual y registra la acción si hubo cambio
+     * @param nuevoEstado Estado al que se desea cambiar
+     */
+    public void cambiarEstado(EstadoCaso nuevoEstado) {
+        Caso caso = casoManager.getCasoActual();
+        if (caso == null) {
             System.out.println("No hay caso en atención.");
             return;
         }
-        casoActual.agregarNota(texto); // Agregamos la nota al caso
-        pilaUndo.registrarAccion(new Accion(casoActual.getId(), Accion.Tipo.AGREGAR_NOTA, texto)); // Registramos la acción
-        pilaRedo.limpiar(); // Limpiamos la pila de rehacer ya que se hizo una nueva acción
-        System.out.println("Nota agregada."); //    Mostramos en consola
-    }
+        EstadoCaso estadoAnterior = caso.getEstado();
+        casoManager.cambiarEstado(nuevoEstado);
 
-    // Método para eliminar una nota del caso actual
-    public void eliminarNota(String texto) {
-        if (casoActual == null) { // Validamos que haya un caso en atención
-            System.out.println("No hay caso en atención.");
-            return;
-        }
-        casoActual.eliminarNota(texto); // Eliminamos la nota del caso
-        pilaUndo.registrarAccion(new Accion(casoActual.getId(), Accion.Tipo.ELIMINAR_NOTA, texto)); // Registramos la acción
-        pilaRedo.limpiar(); // Limpiamos la pila de rehacer
-        System.out.println("Nota eliminada (si es que esta existía)."); // Confirmamos en consola
-    }
-
-    // Método para cambiar el estado del caso actual
-    public void cambiarEstado(TipoEstado nuevoEstado) {
-        if (casoActual == null) { // Validamos que haya un caso en atención
-            System.out.println("No hay caso en atención.");
-            return;
-        }
-        TipoEstado anterior = casoActual.getEstado(); // Guardamos el estado anterior
-        casoActual.setEstado(nuevoEstado); // Cambiamos al nuevo estado
-        pilaUndo.registrarAccion(new Accion(casoActual.getId(), Accion.Tipo.CAMBIO_ESTADO, anterior, nuevoEstado)); // Registramos el cambio
-        pilaRedo.limpiar(); // Limpiamos la pila de rehacer
-        System.out.println("El sstado a sido cambiado a: " + nuevoEstado); // Mostramos el nuevo estado
-    }
-
-    // Método para deshacer la última acción realizada
-    public void deshacer() {
-        if (pilaUndo.estaVacia()) { // Si no hay acciones para deshacer, avisamos
-            System.out.println("Nada que deshacer.");
-            return;
-        }
-        Accion ultima = pilaUndo.deshacer(); // Extraemos la última acción
-        if (ultima == null) {
-            System.out.println("Nada que deshacer.");
-            return;
-        }
-        pilaRedo.registrarAccion(ultima); // La guardamos en la pila de rehacer
-
-        if (casoActual == null || casoActual.getId() != ultima.getCasoId()) { // Verificamos que la acción pertenezca al caso actual
-            System.out.println("La acción no pertenece al caso en atención. (soporte pendiente)");
-            return;
-        }
-
-        // Revertimos la acción según su tipo
-        switch (ultima.getTipo()) {
-            case AGREGAR_NOTA:
-                casoActual.eliminarNota(ultima.getDato()); // Quitamos la nota agregada
-                System.out.println("Deshecho: agregar nota."); // Confirmamos en consola
-                break;
-            case ELIMINAR_NOTA:
-                casoActual.agregarNota(ultima.getDato()); // Restauramos la nota eliminada
-                System.out.println("Deshecho: eliminar nota.");
-                break;
-            case CAMBIO_ESTADO:
-                casoActual.setEstado(ultima.getEstadoAnterior()); // Volvemos al estado anterior
-                System.out.println("Deshecho: cambio de estado.");
-                break;
+        if (estadoAnterior != nuevoEstado) {
+            historial.registrar(new Accion(caso.getId(), Accion.Tipo.CAMBIO_ESTADO, estadoAnterior, nuevoEstado));
         }
     }
 
-    // Método para rehacer la última acción deshecha
-    public void rehacer() {
-        if (pilaRedo.estaVacia()) { // Si no hay acciones para rehacer, avisamos
-            System.out.println("Nada que rehacer.");
-            return;
-        }
-        Accion accion = pilaRedo.deshacer(); // Extraemos la acción a rehacer
-        if (accion == null) {
-            System.out.println("Nada que rehacer.");
-            return;
-        }
-        pilaUndo.registrarAccion(accion); // La volvemos a registrar en la pila de deshacer
+    /**
+     * Deshace la última acción registrada
+     * @return Texto de la nota afectada
+     */
+    public String deshacer() {
+        Accion accion = historial.deshacer();
+        if (accion == null) return null;
 
-        if (casoActual == null || casoActual.getId() != accion.getCasoId()) { // Verificamos que la acción pertenezca al caso actual
-            System.out.println("La acción no pertenece al caso en atención. (soporte pendiente)");
-            return;
+        if (accion.getTipo() == Accion.Tipo.AGREGAR_NOTA || accion.getTipo() == Accion.Tipo.ELIMINAR_NOTA) {
+            return accion.getContenido();
         }
-
-        // Reaplicamos la acción según su tipo
-        switch (accion.getTipo()) {
-            case AGREGAR_NOTA:
-                casoActual.agregarNota(accion.getDato()); // Volvemos a agregar la nota
-                System.out.println("Rehecho: agregar nota.");
-                break;
-            case ELIMINAR_NOTA:
-                casoActual.eliminarNota(accion.getDato()); // Volvemos a eliminar la nota
-                System.out.println("Rehecho: eliminar nota.");
-                break;
-            case CAMBIO_ESTADO:
-                casoActual.setEstado(accion.getEstadoNuevo()); // Aplicamos el nuevo estado otra vez
-                System.out.println("Rehecho: cambio de estado.");
-                break;
-        }
+        return null;
     }
 
-    // Método para finalizar el caso actual
+    /**
+     * Rehace la última acción deshecha
+     * @return Texto de la nota afectada
+     */
+    public String rehacer() {
+        Accion accion = historial.rehacer();
+        if (accion == null) return null;
+
+        if (accion.getTipo() == Accion.Tipo.AGREGAR_NOTA || accion.getTipo() == Accion.Tipo.ELIMINAR_NOTA) {
+            return accion.getContenido();
+        }
+
+        return null;
+    }
+
+    /**
+     * Finaliza el caso actual y lo guarda en un archivo de texto
+     */
     public void finalizarCaso() {
-        if (casoActual == null) { // Validamos que haya un caso en atención
+        Caso caso = casoManager.getCasoActual();
+        if (caso == null) {
             System.out.println("No hay caso en atención.");
             return;
         }
-        casoActual.setEstado(TipoEstado.COMPLETADO); // Marcamos el caso como completado
-        casosFinalizados.add(casoActual); // Lo agregamos al historial de finalizados
-        System.out.println("Caso finalizado: " + casoActual.getId()); // Confirmamos en consola
-        casoActual = null; // Liberamos el caso actual
-        pilaUndo = new Pila(); // Reiniciamos las pilas
-        pilaRedo = new Pila();
+        casoManager.finalizarCaso();
+        guardarCasoEnArchivo(caso);
     }
 
-    // Método para mostrar todos los casos finalizados
-    public void mostrarHistorialFinalizados() {
-        if (casosFinalizados.isEmpty()) {
+    /**
+     * Guarda la información del caso en un archivo .txt
+     * @param caso Caso a guardar
+     */
+    private void guardarCasoEnArchivo(Caso caso) {
+        String nombreArchivo = "ticket_" + caso.getId() + ".txt";
+
+        try (PrintWriter writer = new PrintWriter(nombreArchivo)) {
+            writer.println("Ticket #" + caso.getId());
+            writer.println("Estudiante: " + caso.getEstudiante());
+            writer.println("Estado final: " + caso.getEstado());
+            writer.println("Urgente: " + (caso.isUrgente() ? "Sí" : "No"));
+            writer.println("Notas:");
+
+            List<String> notas = caso.obtenerNotas();
+            if (notas.isEmpty()) {
+                writer.println("  Sin notas registradas.");
+            } else {
+                for (int i = 0; i < notas.size(); i++) {
+                    writer.println("  " + (i + 1) + ". " + notas.get(i));
+                }
+            }
+
+            System.out.println("→ Caso guardado en archivo: " + nombreArchivo);
+        } catch (IOException e) {
+            System.out.println("Error al guardar el caso en archivo: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Muestra todos los casos que han sido finalizados.
+     */
+    public void mostrarCasosFinalizados() {
+        List<Caso> finalizados = casoManager.getCasosFinalizados();
+        if (finalizados.isEmpty()) {
             System.out.println("No hay casos finalizados.");
             return;
         }
-        for (Caso c : casosFinalizados) {
+
+        for (Caso c : finalizados) {
             System.out.println(c);
             System.out.println("---------------");
         }
     }
 
-    // Muestra los casos que están en espera
-    public void mostrarCasosEnEspera() {
-        cola.mostrarCasosEnEspera();
+    /**
+     * Muestra el historial completo de un ticket por su ID
+     * @param id ID del ticket a consultar
+     */
+    public void mostrarHistorialDeTicket(int id) {
+        List<Caso> todos = new ArrayList<>();
+        todos.addAll(casoManager.getCasosFinalizados());
+
+        Caso actual = casoManager.getCasoActual();
+        if (actual != null) todos.add(actual);
+
+        todos.addAll(casoManager.getCasosEnCola());
+        todos.sort((a, b) -> Integer.compare(a.getId(), b.getId()));
+
+        Caso buscado = todos.stream()
+                .filter(c -> c.getId() == id)
+                .findFirst()
+                .orElse(null);
+
+        if (buscado == null) {
+            System.out.println("No se encontró ningún ticket con ese ID.");
+            return;
+        }
+        System.out.println("\nHistorial del Ticket #" + buscado.getId());
+        System.out.println("Estudiante: " + buscado.getEstudiante());
+        System.out.println("Estado actual: " + buscado.getEstado());
+
+        switch (buscado.getEstado()) { // Enseña un mensaje adicional según el estado del ticket
+            case COMPLETADO -> System.out.println("→ Este ticket ya fue FINALIZADO.");
+            case URGENTE -> System.out.println("→ Este ticket está marcado como URGENTE.");
+            case EN_COLA -> System.out.println("→ Este ticket está REGISTRADO y en espera.");
+            case EN_ATENCION -> System.out.println("→ Este ticket está siendo ATENDIDO actualmente.");
+        }
+        System.out.println("Urgente: " + (buscado.isUrgente() ? "Sí" : "No"));
+
+        List<String> notas = buscado.obtenerNotas();
+        if (notas.isEmpty()) {
+            System.out.println("Notas: Sin notas registradas.");
+        } else {
+            System.out.println("Notas:");
+            for (int i = 0; i < notas.size(); i++) {
+                System.out.println("  " + (i + 1) + ". " + notas.get(i));
+            }
+        }
     }
 
-    public void exportarDatos(String nombreArchivo) {
-        try (java.io.FileWriter writer = new java.io.FileWriter(nombreArchivo)) {
+    /**
+     * Para borrar los Archivos creados, directamente desde consola
+     * @param id
+     */
+    public void borrarArchivoDeTicket(int id) {
+        String nombreArchivo = "ticket_" + id + ".txt";
+        File archivo = new File(nombreArchivo);
 
-            // Encabezado
-            writer.write("═".repeat(50) + "\n");
-            writer.write("EXPORTACIÓN DE DATOS - CENTRO DE ATENCIÓN AL ESTUDIANTE\n");
-            writer.write("Fecha: " + new java.util.Date() + "\n");
-            writer.write("═".repeat(50) + "\n\n");
-
-            // Tickets en cola (usando la cola interna)
-            writer.write("TICKETS EN COLA DE ESPERA:\n");
-            List<Caso> listaEnCola = cola.listarCasos();
-            writer.write("Total: " + listaEnCola.size() + "\n");
-            if (!listaEnCola.isEmpty()) {
-                int contador = 1;
-                for (Caso caso : listaEnCola) {
-                    writer.write(contador + ". ID: " + caso.getId() + " - " + caso.getEstudiante() + "\n");
-                    contador++;
-                }
+        if (archivo.exists()) {
+            if (archivo.delete()) {
+                System.out.println("Archivo " + nombreArchivo + " eliminado correctamente.");
             } else {
-                writer.write("No hay tickets en espera\n");
+                System.out.println("No se pudo eliminar el archivo " + nombreArchivo + ".");
             }
-            writer.write("\n");
-
-            // Ticket en atención (casoActual)
-            writer.write("TICKET EN ATENCIÓN:\n");
-            if (casoActual != null) {
-                writer.write("ID: " + casoActual.getId() + "\n");
-                writer.write("Estado: " + casoActual.getEstado() + "\n");
-                List<String> notas = casoActual.getNotas();
-                writer.write("Notas registradas: " + (notas != null ? notas.size() : 0) + "\n");
-
-                if (notas != null && !notas.isEmpty()) {
-                    writer.write("Detalle de notas:\n");
-                    int contadorNota = 1;
-                    for (String nota : notas) {
-                        writer.write("  " + contadorNota + ". " + nota + "\n");
-                        contadorNota++;
-                    }
-                }
-            } else {
-                writer.write("No hay ticket en atención actualmente\n");
-            }
-            writer.write("\n");
-
-            // Historial de acciones (pilaUndo / pilaRedo)
-            writer.write("HISTORIAL DE ACCIONES:\n");
-            writer.write("Acciones disponibles para DESHACER: " + pilaUndo.tamanio() + "\n");
-            writer.write("Acciones disponibles para REHACER: " + pilaRedo.tamanio() + "\n");
-            writer.write("\n");
-
-
-            // Sección: Casos finalizados
-            writer.write("CASOS FINALIZADOS:\n");
-            writer.write("Total: " + casosFinalizados.size() + "\n");
-            if (!casosFinalizados.isEmpty()) {
-                int idx = 1;
-                for (Caso c : casosFinalizados) {
-                    writer.write(idx + ". ID: " + c.getId() + " - " + c.getEstudiante() + "\n");
-                    writer.write("   Estado: " + c.getEstado() + "\n");
-                    List<String> notasFinal = c.getNotas();
-                    writer.write("   Notas registradas: " + (notasFinal != null ? notasFinal.size() : 0) + "\n");
-                    if (notasFinal != null && !notasFinal.isEmpty()) {
-                        writer.write("   Detalle de notas:\n");
-                        for (int i = 0; i < notasFinal.size(); i++) {
-                            writer.write("      " + (i + 1) + ". " + notasFinal.get(i) + "\n");
-                        }
-                    }
-                    writer.write("---------------\n");
-                    idx++;
-                }
-            } else {
-                writer.write("No hay casos finalizados\n");
-            }
-
-            writer.write("\n" + "═".repeat(50) + "\n");
-            writer.write("EXPORTACIÓN COMPLETADA\n");
-            writer.write("═".repeat(50) + "\n");
-
-            System.out.println("✓ Datos exportados exitosamente a: " + nombreArchivo);
-
-        } catch (java.io.IOException e) {
-            System.out.println("✗ Error al exportar datos: " + e.getMessage());
+        } else {
+            System.out.println("El archivo " + nombreArchivo + " no existe.");
         }
+    }
+
+    public Caso getCasoActual() {
+        return casoManager.getCasoActual();
+    }
+
+    public List<Caso> getCasosFinalizados() {
+        return casoManager.getCasosFinalizados();
+    }
+
+    public List<Caso> getCasosEnCola() {
+        return casoManager.getCasosEnCola();
+    }
+
+    public void validarNombre(String nombre) throws NombreInvalidoException {
+        casoManager.validarNombre(nombre);
     }
 }

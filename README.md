@@ -75,31 +75,74 @@ Además, se incorpora un mecanismo de **deshacer (Undo)** y **rehacer (Redo)** p
 
 ## Capturas de pruebas por operacion
 
-#### Cola - Encolar/ Desencolar
-<img width="261" height="117" alt="image" src="https://github.com/user-attachments/assets/98a0fbbb-214a-41e5-ae2f-ee0c031b5ed2" />
+- Al iniciar nuestro proyecto se nos va a desplegar un Menú el cual tiene varias opciones a elegir.
+<img width="434" height="342" alt="image" src="https://github.com/user-attachments/assets/3132e051-042b-41b6-a6ab-96690b5cbb77" />
 
-- Se muestran las lineas de la recepcion de los casos, con la lista de los casos en espera con la opcion 10.
 
-#### Flujo completo
-<img width="361" height="246" alt="image" src="https://github.com/user-attachments/assets/c7ea3bef-1142-44f8-9a6d-9d8ecebd049f" />
+- En La primera opción tenemos "Recibir nuevo caso", esto lo que hará es añadir un caso nuevo y solicitar el nombre, acto seguido realiza una pregunta de que si es urgente o no, en caso de que si, seleccionar S y en caso contrario seleccionar N.
+En caso de que seleccionemos S, el caso registrado tomara prioridad ante otros casos creados
+<img width="446" height="443" alt="image" src="https://github.com/user-attachments/assets/dbb3db95-09f3-4113-ab97-82f151347d9e" />
 
-- Flujo completo del sistema donde se recibe los casos, se los atiende, se les agrega una nota, se finaliza el caso, con su respectiva nota.
+<img width="506" height="439" alt="image" src="https://github.com/user-attachments/assets/a863fab0-cfdf-42cb-8447-99eb5bd839dd" />
 
-#### Lista enlazada -  Insertar / ELimnar nota
-<img width="360" height="223" alt="image" src="https://github.com/user-attachments/assets/22c133fb-eb57-42aa-bf63-6be121ee63b6" />
 
-- Se añade dos notas y se elimina la primera, despues se visualiza los casos finalizados con la opcion 9.
 
-#### Pila - Pus/Pop
-<img width="288" height="241" alt="image" src="https://github.com/user-attachments/assets/83eb51a4-ec53-42c7-8d61-42f1b7626dee" />
+- En la segunda opción tenemos "Atender siguiente caso, lo cual hará es tomar al primer caso recibido y a este lo atenderá, pero cómo anteriormente seleccionamos que Juan es caso urgente, lo toma cómo prioridad.
 
-- Se añaden dos notas, despues se coloca deshacer dos veces, visualizando como se han deshecho. 
+  <img width="521" height="370" alt="image" src="https://github.com/user-attachments/assets/2d006707-0ab8-4015-939a-41c670c84332" />
 
-#### Undo/Redo - Revertir o rehacer la ultima accion
-<img width="315" height="195" alt="image" src="https://github.com/user-attachments/assets/6f0aed03-3bdb-410f-a939-2845620025e5" />
+- En la Tercera opción tenemos "Agregar o Eliminar notas" lo cual básicamente primero  lo que realizará es desplegar un mini menú el cual tiene distintas opciones para la gestion de notas, cómo por ejemplo : agregar nota, eliminar nota por indice, mostrar notas actuales, deshacer, rehacer y por ultimo salir. 
 
-- Se muestra como se puede deshacer y rehacer una nota, con todo el flujo del sistema.  
+<img width="533" height="636" alt="image" src="https://github.com/user-attachments/assets/abf6d704-dfc8-4c4c-8e52-c6ee92e752d4" />
 
+Verificamos que se creen las notas :
+
+<img width="540" height="662" alt="image" src="https://github.com/user-attachments/assets/ee673b91-92d0-44a0-a107-617c3aa39bc0" />
+
+Verificamos que las notas se puedan eliminar:
+
+<img width="740" height="463" alt="image" src="https://github.com/user-attachments/assets/33454d86-1381-4677-bdd4-4a932f71b506" />
+
+
+Verificamos el historial de notas:
+
+<img width="465" height="354" alt="image" src="https://github.com/user-attachments/assets/0f650cba-648a-4bca-ab59-04a4baa40f6a" />
+
+Verificamos la opcion deshacer :
+
+<img width="465" height="354" alt="image" src="https://github.com/user-attachments/assets/2bf5c9b9-d6b8-4a4e-a599-9682a66797ec" />
+
+Verificamos la opción rehacer:
+
+<img width="531" height="350" alt="image" src="https://github.com/user-attachments/assets/440e5188-c259-4db5-9362-c72ef025c81e" />
+
+Y por ultimo salimos del mini menú:
+
+<img width="419" height="318" alt="image" src="https://github.com/user-attachments/assets/f0f67809-adcf-4cac-a492-9eac8333bb4a" />
+
+
+- En la cuarta opción tenemos "Cambiar estado del caso actual"  lo cual en si por defecto cuando se atiende un caso selecciona un estado el cual seria : "EN_ATENCION", aquí podemos básicamente cambiar el estado del caso, existen 6 tipos de estados cómo podemos observar, los cuales son: EN_COLA, URGENTE, EN_ATENCION, EN_PROCESO, PENDIENTE_DOCUMENTOS, COMPLETADO.
+
+<img width="661" height="600" alt="image" src="https://github.com/user-attachments/assets/399d546f-591e-4a37-adc3-71a8b34733c1" />
+
+  
+- En la quinta opcion tenemos "Finalizar caso actual" esta opción básicamente es cuando ya queremos pasar a un caso nuevo , cabe recalcar , como mencionamos anteriormente, si hay un caso urgente, tomaría como prioridad ese caso.
+<img width="685" height="427" alt="image" src="https://github.com/user-attachments/assets/b786e3a7-6b01-47c1-907a-95e7b61686ac" />
+
+- En la sexta opción tenemos "Mostrar historial" lo que basicamente va a enseñar el orden de los tickets creados y su estado actual, al seleccionar cualquiera de los dos , va a mostrar una descripcion de ellos:
+
+<img width="604" height="729" alt="image" src="https://github.com/user-attachments/assets/44dc6dea-8ce1-4559-8c6b-0e1a6c1d069f" />
+
+
+- En la septima opcion tenemos" Borrar archivo de ticket finalizado" lo cual se lo elimina mediante un ID, como obseramos , cuando se acaba un caso se completa y genera un arhico.txt y a este le otorga un ID, es escencial para su eliminación:
+
+<img width="676" height="416" alt="image" src="https://github.com/user-attachments/assets/26ea19fb-8710-469a-88f5-e2206ce5eb8e" />
+
+  
+- En la opcion numero Cero, es basicamente para salir del sistema.
+
+
+<img width="538" height="437" alt="image" src="https://github.com/user-attachments/assets/c63fbba7-804b-4ee1-8457-8f08e9347037" />
 
 
 ---
@@ -117,30 +160,44 @@ No se utilizaron APIs externas ni librerías de terceros. Se optó por implement
 El proyecto está organizado bajo el paquete `edu.unl.cc`. La estructura relevante del código fuente es la siguiente:
 
 ```bash
-src/
-└── main/
-  └── java/
-    └── edu/
-      └── unl/
-        └── cc/
-          ├── Main.java
-          ├── dominio/
-          │   ├── Accion.java
-          │   ├── Caso.java
-          │   ├── Nota.java
-          │   └── TipoEstado.java
-          │
-          ├── estructuras/
-          │   ├── Cola.java
-          │   ├── Lista.java
-          │   ├── Nodo.java
-          │   └── Pila.java
-          │
-          ├── exception/
-          │   └── NombreInvalidoException.java
-          │
-          └── service/
-            └── GestorCAE.java
+Proyecto_Cae/
+├── `.gitignore`
+├── `pom.xml`
+├── `.idea/`
+│   └── (configuración del IDE)
+├── `src/`
+│   ├── `main/`
+│   │   └── `java/edu/unl/cc/`
+│   │       ├── `service/`
+│   │       │   ├── `Main.java`
+│   │       │   ├── `CasoManager.java`
+│   │       │   ├── `GestorCAE.java`
+│   │       │   ├── `HistorialAcciones.java`
+│   │       │   ├── `MenuCAE.java`
+│   │       │   └── `NotaManager.java`
+│   │       ├── `modelo/`
+│   │       │   ├── `Accion.java`
+│   │       │   ├── `Caso.java`
+│   │       │   └── `EstadoCaso.java`
+│   │       ├── `dominio/`
+│   │       │   ├── `Accion.java`
+│   │       │   ├── `Caso.java`
+│   │       │   ├── `Nota.java`
+│   │       │   └── `TipoEstado.java`
+│   │       ├── `estructuras/`
+│   │       │   ├── `Cola.java`
+│   │       │   ├── `ColaCasos.java`
+│   │       │   ├── `Lista.java`
+│   │       │   ├── `ListaNotas.java`
+│   │       │   ├── `Nodo.java`
+│   │       │   ├── `Pila.java`
+│   │       │   └── `PilaAcciones.java`
+│   │       └── `exception/`
+│   │           └── `NombreInvalidoException.java`
+│   └── `test/`
+│       └── `java/edu/unl/cc/service/`
+│           └── `GestorCAETest.java`
+└── `README.md`  
 ```
 
  
@@ -150,4 +207,5 @@ src/
 ### [Royel Jima](https://github.com/R0yalCode)
 ### [Juan Calopino](https://github.com/JuaaanCalopino)
 ### [Daniel Saavedra](https://github.com/Dan-San837)
+### [Derick Vargas](https://github.com/DerickVar)
 
