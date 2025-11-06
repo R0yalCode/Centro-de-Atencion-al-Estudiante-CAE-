@@ -150,5 +150,5 @@ src/
 ### [Royel Jima](https://github.com/R0yalCode)
 ### [Juan Calopino](https://github.com/JuaaanCalopino)
 ### [Daniel Saavedra](https://github.com/Dan-San837)
-### [Derik Vargas](https://github.com/DerickVar)
+### [Derick Vargas](https://github.com/DerickVar)
 
