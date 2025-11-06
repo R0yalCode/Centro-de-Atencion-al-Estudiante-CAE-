@@ -22,17 +22,17 @@ Además, se incorpora un mecanismo de **deshacer (Undo)** y **rehacer (Redo)** p
 
 ---
 
-##  Decisiones de diseño
+## Decisiones de diseño
 
 | Aspecto | Decisión | Justificación |
 |----------|-----------|---------------|
-| **Separación por paquetes** | `modelo/`, `estructuras/`, `consola/` | Mejora la modularidad y claridad del código |
-| **Estructuras implementadas a mano** | Nodos y referencias propias | Requisito del proyecto: evitar dependencias externas |
-| **Encapsulamiento de estado** | `enum Estado` | Facilita el control de flujo del ticket |
-| **Undo/Redo** | Dos pilas (`undoStack`, `redoStack`) | Permite revertir y rehacer acciones relevantes |
-| **Integridad de referencias** | Eliminación segura en SLL | Evita pérdida de nodos al eliminar notas |
-| **Interacción por consola** | Clase `ModuloConsola` con menú iterativo | Permite pruebas funcionales sin interfaz gráfica |
-| **Persistencia simulada** | Historial de tickets finalizados en memoria | Mantiene la trazabilidad del proceso sin archivos externos |
+| **Separación por paquetes** | `service/`, `modelo/`, `dominio/`, `estructuras/`, `exception/` | Organiza la lógica de aplicación, modelos de negocio, entidades de dominio, estructuras de datos y excepciones para facilitar mantenimiento y navegación del código. |
+| **Estructuras implementadas a mano** | `Cola`, `ColaCasos`, `Lista`, `ListaNotas`, `Nodo`, `Pila`, `PilaAcciones` | Implementación propia para control didáctico y evitar dependencias externas; permite entender y adaptar comportamiento de colas, pilas y listas. |
+| **Encapsulamiento de estado** | `EstadoCaso` / `TipoEstado` *(clases/enums)* | Centraliza y tipa los estados del caso (`Abierto`, `En Atención`, `Finalizado`, etc.), facilitando transiciones y validaciones. |
+| **Undo/Redo** | `PilaAcciones` / `HistorialAcciones` *(dos pilas lógicas: undo/redo)* | Permite deshacer y rehacer acciones relevantes (notas, cambios de estado, etc.) manteniendo trazabilidad. |
+| **Integridad de referencias** | Métodos seguros en `ListaNotas` y `Lista` para manipulación (borrado/recorrido) | Evita inconsistencias al eliminar o actualizar nodos/notas; preserva la integridad de la colección en listas enlazadas simples. |
+| **Interacción por consola** | `Main.java` + `MenuCAE.java` *(menú iterativo en consola)* | Proporciona una interfaz simple y reproducible para pruebas funcionales sin GUI; facilita la captura de evidencias y uso en entornos académicos. |
+| **Persistencia simulada / trazabilidad** | `HistorialAcciones` en memoria y almacenamiento temporal de casos finalizados | Mantiene registro de acciones para auditoría durante la ejecución; no hay persistencia externa por defecto (archivo/BD). |
 
 ---
 
